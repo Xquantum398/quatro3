@@ -15,7 +15,7 @@ RUN git clone https://github.com/Xquantum398/quatro3.git .
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-EXPOSE 88080
+EXPOSE 8080
 
 # Run run.py when the container launches
 CMD ["uvicorn", "run:main_app", "--host", "0.0.0.0", "--port", "8080", "--workers", "4"]
