@@ -7,7 +7,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y git
 
 # Clone the repository
-RUN git clone https://github.com/StremioItalia/UnHided.git .
+RUN git clone https://github.com/Xquantum398/quatro3.git .
 
 # Copy the local config.json file to the container
 
