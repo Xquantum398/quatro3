@@ -1,21 +1,21 @@
-FROM python:3.10-slim-buster
+FROM python:3.12-slim
 
-# Set the working directory in the container to /app
 WORKDIR /app
 
-# Install git
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    curl \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Clone the repository
-RUN git clone https://github.com/Xquantum398/quatro3.git .
+RUN git clone https://github.com/MarkMCFC/tfms.xyz .
 
-# Copy the local config.json file to the container
+RUN pip install flask curl-cffi m3u8 gunicorn
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+ENV PYTHONPATH=/app
 
+EXPOSE 7860
 
-EXPOSE 8080
-
-# Run run.py when the container launches
-CMD ["uvicorn", "run:main_app", "--host", "0.0.0.0", "--port", "8080", "--workers", "4"]
+CMD ["gunicorn", "--workers", "5", "--worker-class", "gthread", "--threads", "4", "--bind", "0.0.0.0:7860", "proxy:app"]
